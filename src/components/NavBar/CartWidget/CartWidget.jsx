@@ -1,24 +1,20 @@
-import React from 'react';
+// Importación de componentes y módulos necesarios desde la biblioteca Font Awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 
-const CartWidgett = () => {
+// Definición del componente funcional CartWidget
+const CartWidget = () => {
+    // Renderizado del componente
     return (
-        <div style={{
-            display: "flex",
-            width: "40px",
-            height: "40px",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "#FFF", 
-            borderRadius: "8px",    
-            boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",  
-            cursor: "pointer"
-        }}>
-            <FontAwesomeIcon style={{ color: "#000", fontSize: "20px" }} icon={faShoppingCart} /> 
-            <span style={{ fontWeight: "bold", fontSize: "15px", color: "#000", marginLeft: "5px" }}>1</span> 
+        // Contenedor principal con estilos de diseño flexibles y alineación de elementos
+        <div style={{ display: "flex", width: 35, justifyContent: "space-between", alignItems: "center" }}>
+            {/* Icono de carrito de compras utilizando Font Awesome */}
+            <FontAwesomeIcon style={{ color: "darkblue" }} icon={faCartShopping} />
+            {/* Número de elementos en el carrito (puedes cambiar este valor según la cantidad real) */}
+            <span style={{ fontWeight: "bold", fontSize: "15px", color: "black" }}>3</span>
         </div>
     );
-}
+};
 
-export default CartWidgett;
+// Exportación del componente CartWidget
+export default CartWidget;

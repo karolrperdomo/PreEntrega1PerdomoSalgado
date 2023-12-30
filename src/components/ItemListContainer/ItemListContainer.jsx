@@ -1,67 +1,44 @@
-import React from "react";
+// Importación de componentes y módulos necesarios desde react-bootstrap y react-router-dom
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import { Link } from "react-router-dom";
 
-const ItemListContainer = ({ greeting, productsData }) => {
+// Definición del componente funcional ItemListContainer que toma una propiedad productsData
+const ItemListContainer = ({ productsData }) => {
+    // Imprimir los datos de productos en la consola
     console.log(productsData);
 
-    
+    // Renderizado del componente
     return (
-        <div
-            style={{
-                display: "flex",
-                justifyContent: productsData ? "space-around" : "center",
-                padding: "20px",
-                width: "100vw",
-                flexWrap: "wrap",
-            }}
-        >
-            {productsData ? (
-                productsData.map((product) => (
-                    <Card key={product.id} style={{ width: "18rem", margin: "10px 0" }}>
-                        <Card.Img
-                            variant="top"
-                            src={product.thumbnail}
-                            style={{
-                                maxHeight: "200px",
-                                objectFit: "cover",
-                                borderRadius: "8px",
-                            }}
-                        />
+        // Contenedor principal con estilos de diseño flexibles
+        <div style={{ display: 'flex', justifyContent: "space-between", padding: '10px', width: '100vw', flexWrap: "wrap" }}>
+            {/* Mapeo de los datos de productos para renderizar tarjetas individuales */}
+            {productsData.map((products) => {
+                return (
+                    // Tarjeta individual con clave única basada en la propiedad id del producto
+                    <Card key={products.id} style={{ width: "18rem" }}>
+                        {/* Enlace a la página del artículo individual */}
+                        <Link to={`/item/${products.id}`}>
+                            {/* Imagen del producto */}
+                            <Card.Img variant="top" src={products.thumbnail} />
+                        </Link>
+                        {/* Contenido de la tarjeta con título, descripción, precio y botón */}
                         <Card.Body>
-                            <Card.Title>{product.title}</Card.Title>
-                            <Card.Text>{product.description}</Card.Text>
-                            <div>{product.price}</div>
-                            <div style={{ textAlign: "center" }}>
-                                <Button
-                                    variant="primary"
-                                    style={{ backgroundColor: "#32c5b8" }}
-                                >
-                                    Conoce más
-                                </Button>
-                            </div>
+                            {/* Título del producto */}
+                            <Card.Title>{products.title}</Card.Title>
+                            {/* Descripción del producto */}
+                            <Card.Text>{products.description}</Card.Text>
+                            {/* Precio del producto */}
+                            <div>{products.price}</div>
+                            {/* Botón con variante primaria */}
+                            <Button variant="primary">Go somewhere</Button>
                         </Card.Body>
                     </Card>
-                ))
-            ) : (
-                <div
-                    style={{
-                        fontFamily: "cursive",
-                        fontWeight: "bold",
-                        fontSize: "24px",
-                        width: "100vw",
-                        height: "50vh",
-                        textAlign: "center",
-                        padding: "25px",
-                        background: "#F5F5F5",
-                        borderRadius: "15px",
-                    }}
-                >
-                    {greeting}
-                </div>
-            )}
+                );
+            })}
         </div>
     );
 };
 
+// Exportación del componente ItemListContainer
 export default ItemListContainer;

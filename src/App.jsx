@@ -1,44 +1,23 @@
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import NavBar from './components/NavBar/NavBar';
-import ItemListContainer from '../src/components/ItemListContainer/ItemListContainer';
-import Carousel from 'react-bootstrap/Carousel';
-import { useGetProducts } from './hooks/useProducts';
+// Importación de estilos de Bootstrap
+import "bootstrap/dist/css/bootstrap.min.css";
+// Importación del componente principal de enrutamiento
+import MainRouter from "./router/MainRouter";
 
+/**
+ * @description Componente principal de la aplicación.
+ * @returns {JSX.Element} - Elemento JSX que contiene el componente MainRouter.
+ */
 const App = () => {
-  const { productsData } = useGetProducts(20);
-
-  const appStyle = {
-    width: '100vw',
-    fontFamily: 'Georgia, serif',
-    backgroundColor: '#f8f8f8',
-    boxSizing: 'border-box',
-  };
-
-  const titleStyle = {
-    textAlign: 'center',
-    padding: '20px',
-    fontSize: '28px',
-  };
-
+  // Renderizado del componente principal
   return (
-    <div style={appStyle}>
-      <NavBar />
-      <h1 style={titleStyle}>Bienvenidos a nuestra tienda de artesanías</h1>
-      <Carousel>
-        <Carousel.Item style={{ maxHeight: '300px', overflow: 'hidden' }}>
-          <img
-            className="d-block w-100"
-            src="https://cdn.pixabay.com/photo/2016/08/23/13/12/knitting-1614283_1280.jpg"
-            alt="First slide"
-            style={{ width: '100%', opacity: 0.8 }}
-          />
-        </Carousel.Item>
-      </Carousel>
-      <h1 style={titleStyle}>Nuestros productos</h1>
-      <ItemListContainer productsData={productsData} />
+    <div style={{ width: "100vw", height: "100vh" }}>
+      {/* Componente de enrutamiento principal */}
+      <MainRouter />
+      {/* Ejemplo de componente UserData comentado para evitar renderizarlo */}
+      {/* <UserData firstName="Benjamin" lastName="García" age={20} birthdate="28/06/91" /> */}
     </div>
   );
 };
 
+// Exportación del componente App
 export default App;

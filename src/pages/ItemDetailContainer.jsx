@@ -1,7 +1,7 @@
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { useGetProductById } from "../hooks/useProducts";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 /**
  * @description Componente que muestra los detalles de un producto específico.
@@ -27,7 +27,9 @@ export const ItemDetailContainer = () => {
         {/* Precio del producto */}
         <div>{productData.price}</div>
         {/* Botón con variante primaria */}
-        <Button variant="primary">Más información</Button>
+        <Link to={`/items`}>
+            <Button variant="primary">Volver a la lista</Button>
+        </Link>
       </Card.Body>
     </Card>
   );

@@ -31,7 +31,9 @@ const ItemListContainer = ({ productsData }) => {
                             {/* Precio del producto */}
                             <div>{products.price}</div>
                             {/* Botón con variante primaria */}
-                            <Button variant="primary">Go somewhere</Button>
+                            <Link to={`/item/${products.id}`}>
+                                <Button variant="primary">Conoce más</Button>
+                            </Link>
                         </Card.Body>
                     </Card>
                 );

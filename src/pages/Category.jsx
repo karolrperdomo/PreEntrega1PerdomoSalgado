@@ -1,14 +1,12 @@
+import { useParams } from "react-router-dom";
 import ItemListContainer from "../components/ItemListContainer/ItemListContainer";
-import { useGetProducts } from "../hooks/useProducts";
+import { useGetProductsByCategory } from "../hooks/useProducts";
 
-/**
- * @description Página de categoría que muestra una lista de productos de una categoría específica.
- * @returns {JSX.Element} - Elemento JSX que contiene el componente ItemListContainer con los datos de productos.
- */
+
 export const Category = () => {
-  // Utilización del custom hook useGetProducts para obtener datos de productos (límite: 20)
-  const { productsData } = useGetProducts(20);
+  const { id } = useParams();
 
-  // Renderizado del componente ItemListContainer con los datos de productos obtenidos
+  const { productsData } = useGetProductsByCategory(id);
+
   return <ItemListContainer productsData={productsData} />;
 };

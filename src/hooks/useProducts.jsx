@@ -1,56 +1,84 @@
 import { useState, useEffect } from "react";
-import { getProductById, getProducts } from "../services";
+import { getCategories, getProductsByCategory } from "../services";
+import { collection, getDocs, doc, getDoc, getFirestore, query, where } from "firebase/firestore";
 
 /**
- * @description Custom hook para obtener productos
- * @param {number} limit - Límite de productos a obtener
- * @returns {Object} - Objeto que contiene la lista de productos (productsData)
+ * @description Custom hook from get products
+ * @returns {Array}
  */
-export const useGetProducts = (limit) => {
-    // Estado para almacenar la lista de productos
+
+
+export const useGetProducts = (collectionName = 'products') => {
     const [productsData, setProductsData] = useState([]);
-
-    // Efecto secundario que se ejecuta al montar el componente
+    
     useEffect(() => {
-        // Llamada a la función para obtener productos desde el servicio
-        getProducts(limit)
-            .then((response) => {
-                // Actualización del estado con los datos de productos recibidos
-                setProductsData(response.data.products);
-            })
-            .catch((error) => {
-                // Manejo de errores en caso de fallo en la llamada
-                console.log(error);
-            });
-    }, [limit]); // El efecto se ejecuta cuando el valor de limit cambia
+        const db = getFirestore();
+        const productsCollection = collection (db, collectionName); //La usaremos para cualquier coleccion IMPORTANTE
 
-    // Devolución del estado con la lista de productos
-    return { productsData };
+        getDocs(productsCollection).then((snapshot) => {
+            setProductsData(
+                snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+            );
+        });
+    }, []);
+
+
+        return { productsData }
+}
+
+export const useGetProductById = (collectionName = "products", id) => {
+    const [productData, setProductData] = useState([]);
+    
+    useEffect(() => {
+        const db = getFirestore();
+        const docRef = doc(db, collectionName, id) 
+
+        getDoc(docRef).then((doc) => {
+            setProductData({ id: doc.id, ...doc.data() })
+        })
+
+        }, [id]);
+
+        return { productData }
+}
+
+export const useGetCategories = (collectionName = 'categories') => {
+    const [categories, setCategories] = useState([]);
+    
+    useEffect(() => {
+    const db = getFirestore();
+    const productsCollection = collection(db, collectionName);
+    getDocs(productsCollection).then((snapshot) => {
+        const categories = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+    setCategories(categories[0].categories);
+            });
+        }, []);
+        return { categories };
 };
 
-/**
- * @description Custom hook para obtener un producto por su ID
- * @param {number} id - ID del producto a obtener
- * @returns {Object} - Objeto que contiene los datos del producto (productData)
- */
-export const useGetProductById = (id) => {
-    // Estado para almacenar los datos del producto
-    const [productData, setProductData] = useState([]);
-
-    // Efecto secundario que se ejecuta al montar el componente
+export const useGetProductsByCategory = (category) => {
+    const [productsData, setProductsData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    
     useEffect(() => {
-        // Llamada a la función para obtener un producto por su ID desde el servicio
-        getProductById(id)
-            .then((response) => {
-                // Actualización del estado con los datos del producto recibidos
-                setProductData(response.data);
-            })
-            .catch((error) => {
-                // Manejo de errores en caso de fallo en la llamada
-                console.log(error);
-            });
-    }, [id]); // El efecto se ejecuta cuando el valor de id cambia
+        const fetchProductsByCategory = async () => {
+            const db = getFirestore();
+            const productsCollection = collection(db, 'products');
+            const categoryQuery = query(productsCollection, where('category', '==', category));
+            
+            try {
+                const snapshot = await getDocs(categoryQuery);
+                const products = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                setProductsData(products);
+                setLoading(false);
+            } catch (error) {
+                console.error(error);
+                setLoading(false);
+            }
+        };
 
-    // Devolución del estado con los datos del producto
-    return { productData };
+        fetchProductsByCategory();
+        }, [category]);
+
+        return { productsData, loading }
 };

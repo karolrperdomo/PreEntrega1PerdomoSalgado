@@ -1,20 +1,40 @@
-// Importación de componentes y módulos necesarios desde la biblioteca Font Awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
+import { useContext } from 'react';
+import { CartContext } from '../../../context/CartContext';
 
-// Definición del componente funcional CartWidget
 const CartWidget = () => {
-    // Renderizado del componente
-    return (
-        // Contenedor principal con estilos de diseño flexibles y alineación de elementos
-        <div style={{ display: "flex", width: 35, justifyContent: "space-between", alignItems: "center" }}>
-            {/* Icono de carrito de compras utilizando Font Awesome */}
-            <FontAwesomeIcon style={{ color: "darkblue" }} icon={faCartShopping} />
-            {/* Número de elementos en el carrito (puedes cambiar este valor según la cantidad real) */}
-            <span style={{ fontWeight: "bold", fontSize: "15px", color: "black" }}>3</span>
-        </div>
-    );
+  const { count } = useContext(CartContext);
+
+  const totalQuantity = count.reduce((total, item) => total + item.quantity, 0);
+
+  return (
+    <div style={styles.cartContainer}>
+      <FontAwesomeIcon style={styles.cartIcon} icon={faCartShopping} />
+      <span style={styles.cartCount}>{totalQuantity}</span>
+    </div>
+  );
 };
 
-// Exportación del componente CartWidget
+const styles = {
+  cartContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: '8px',
+    backgroundColor: '#f8f8f8',
+    borderRadius: '50px',
+    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+  },
+  cartIcon: {
+    color: '#3498db',
+    fontSize: '24px',
+    marginRight: '10px',
+  },
+  cartCount: {
+    fontWeight: 'bold',
+    fontSize: '18px',
+    color: 'black', // Cambié el color a negro
+  },
+};
+
 export default CartWidget;

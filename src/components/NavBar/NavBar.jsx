@@ -32,7 +32,7 @@ const NavBar = () => {
                             alt="Logo"
                             style={logoStyle}  // Aplicar estilos específicos al logo
                         />
-                        <span style={titleStyle}>Manualidades</span>
+                        <span style={titleStyle}>TecnoTronix</span>
                     </Link>
                 </Navbar.Brand>
 
@@ -50,6 +50,7 @@ const NavBar = () => {
                         </NavDropdown>
                     </Nav>
                 </Navbar.Collapse>
+                <Link to="/create-product">Crear producto nuevo</Link>
                 <CartWidget />
             </Container>
         </Navbar>
